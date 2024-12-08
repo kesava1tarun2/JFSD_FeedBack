@@ -42,7 +42,7 @@ This project is a web application designed to collect and analyze student feedba
 Clone the project from GitHub or your repository source:
 
 ```bash
-git clone https://github.com/your-repository/student-feedback-system.git
+git clone https://github.com/kesava1tarun2/JFSD_FeedBack
 ```
 
 ### 2. **Import into Eclipse or STS**
