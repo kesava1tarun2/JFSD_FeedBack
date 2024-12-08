@@ -1,6 +1,6 @@
 To set up the **Student Feedback and Evaluation System** using **Eclipse** or **Spring Tool Suite (STS) 4**, follow the steps below:
 
-# README: Student Feedback and Evaluation System (Eclipse/STS Setup)
+# Student Feedback and Evaluation System (Eclipse/STS Setup)
 
 ## Overview
 
