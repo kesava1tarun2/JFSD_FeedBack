@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        .user-id {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* General Page Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 60px; /* Adjust margin to account for user ID display */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://t3.ftcdn.net/jpg/05/00/34/58/360_F_500345899_4OqmtspFst6SRnNQvLj7h7TfKOrBwTer.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        .dashboard-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .logout {
+            float: right;
+        }
+
+        .profile-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .profile-container h3 {
+            color: #333;
+        }
+
+        .profile-container p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* To-Do List Styles */
+        .todo-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .todo-container h3 {
+            color: #333;
+        }
+
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .todo-list li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .todo-list li button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .todo-list li button:hover {
+            background-color: darkred;
+        }
+
+        .todo-input {
+            width: 60%;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .todo-deadline {
+            width: 20%;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .todo-add-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .todo-add-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Courses Section Styles */
+        .courses-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .courses-container h3 {
+            color: #333;
+        }
+
+        .courses-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .courses-list li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .courses-list li span {
+            font-weight: bold;
+        }
+
+        .courses-list li .deadline {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dashboard-header">
+        <h2>Welcome to Admin Dashboard</h2>
+    </header>
+    <nav>
+        <a href="/admin-dashboard/admin/view-feedback">View Feedback</a>
+        <a href="/admin-dashboard/admin/add-course">Add Course</a>
+        <a href="/admin-dashboard/admin/add-instructor">Add Instructor</a>
+        <a href="/admin-dashboard/admin/add-service">Add Institutional Service</a>
+        <a href="/admin-dashboard/admin/profile">View Profile</a>
+        <a href="/" class="logout">Logout</a>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- To-Do List Section -->
+        <div class="todo-container">
+            <h3>Admin To-Do List</h3>
+            <input type="text" class="todo-input" id="todoInput" placeholder="Add a new task">
+            <input type="date" class="todo-deadline" id="todoDeadline">
+            <button class="todo-add-button" onclick="addTodo()">Add Task</button>
+            <ul class="todo-list" id="todoList"></ul>
+        </div>
+
+        <!-- Courses Section -->
+        <div class="courses-container">
+            <h3>Available Courses</h3>
+            <ul class="courses-list" id="coursesList">
+                <li>
+                    <span>Course 1: Introduction to Computer Science</span>
+                    <span class="deadline">Deadline: 2024-12-15</span>
+                    <button onclick="deleteCourse(this)">Delete</button>
+                </li>
+                <li>
+                    <span>Course 2: Advanced Java Programming</span>
+                    <span class="deadline">Deadline: 2024-12-20</span>
+                    <button onclick="deleteCourse(this)">Delete</button>
+                </li>
+                <li>
+                    <span>Course 3: Data Structures and Algorithms</span>
+                    <span class="deadline">Deadline: 2024-12-25</span>
+                    <button onclick="deleteCourse(this)">Delete</button>
+                </li>
+                <li>
+                    <span>Course 4: Machine Learning Basics</span>
+                    <span class="deadline">Deadline: 2024-12-30</span>
+                    <button onclick="deleteCourse(this)">Delete</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Function to add a task to the To-Do list with a deadline
+        function addTodo() {
+            var input = document.getElementById('todoInput');
+            var deadline = document.getElementById('todoDeadline');
+            var todoText = input.value.trim();
+            var todoDeadline = deadline.value.trim();
+
+            if (todoText === '' || todoDeadline === '') {
+                alert('Please enter a task and a deadline');
+                return;
+            }
+
+            var todoList = document.getElementById('todoList');
+
+            // Create a new list item
+            var newItem = document.createElement('li');
+            newItem.textContent = todoText + " - Deadline: " + todoDeadline;
+
+            // Create a delete button for the task
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.onclick = function() {
+                todoList.removeChild(newItem);
+            };
+
+            // Append the delete button to the new list item
+            newItem.appendChild(deleteButton);
+
+            // Add the new item to the list
+            todoList.appendChild(newItem);
+
+            // Clear the input fields
+            input.value = '';
+            deadline.value = '';
+        }
+
+        // Function to delete a course
+        function deleteCourse(button) {
+            var courseItem = button.parentElement;
+            courseItem.remove();
+        }
+    </script>
+
+</body>
+</html>

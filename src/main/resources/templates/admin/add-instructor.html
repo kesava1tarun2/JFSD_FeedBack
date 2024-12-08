@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Instructor</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            text-align: center; /* Center the content on the page */
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            padding: 10px 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .logout {
+            float: right;
+            background-color: #e74c3c; /* Red background */
+            padding: 10px 10px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .logout:hover {
+            background-color: #c0392b;
+        }
+
+        /* Page Heading */
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-top: 50px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 60%;
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Instructor Table */
+        table {
+            width: 60%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            text-align: left;
+            background-color: #fff;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #4CAF50;
+        }
+
+        /* Delete Button */
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 768px) {
+            table {
+                width: 90%;
+            }
+
+            .form-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="/admin-dashboard">Go to Dashboard</a>
+        <a href="/admin-dashboard/admin/view-feedback">View Feedback</a>
+        <a href="/admin-dashboard/admin/add-course">Add Course</a>
+        <a href="/admin-dashboard/admin/add-instructor">Add Instructor</a>
+        <a href="/admin-dashboard/admin/add-service">Add Institutional Service</a>
+        <a href="/admin-dashboard/admin/profile">View Profile</a>
+        <a href="/" class="logout">Logout</a>
+    </nav>
+
+    <!-- Page Heading -->
+    <h1>Add Instructor</h1>
+
+    <!-- Add Instructor Form -->
+    <div class="form-container">
+        <form action="/admin-dashboard/admin/add-instructor" method="POST">
+            <label for="instructorName">Instructor Name:</label>
+            <input type="text" id="instructorName" name="instructorName" required />
+            <button type="submit">Add Instructor</button>
+        </form>
+    </div>
+
+    <!-- Instructor Table -->
+    <h2>Instructors</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Instructor Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through instructors and display in rows -->
+            <tr th:each="instructor : ${instructors}">
+                <td th:text="${instructor.name}"></td>
+                <td>
+                    <!-- Delete instructor button -->
+                    <a th:action="@{/admin-dashboard/admin/delete-instructor/{id}(id=${instructorId})}" class="btn-delete">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

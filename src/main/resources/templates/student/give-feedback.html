@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Give Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://img.freepik.com/premium-photo/yellow-electrical-tester-crocodile-plugs-blue-blueprints-metallic-background-electricity-concept_275559-22657.jpg?w=996') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            padding: 10px 0;
+        }
+
+        nav a {
+            float: left;
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+        }
+
+        nav .logout {
+            float: right;
+        }
+
+        .feedback-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            margin: 80px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        select, textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        select:focus, textarea:focus, input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            color: #fff;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .rating-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .star:hover, .star.selected {
+            color: #FFD700;
+        }
+
+        @media (max-width: 600px) {
+            .feedback-container {
+                padding: 15px 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+    <script>
+        function updateSecondaryDropdown() {
+            const category = document.getElementById("category").value;
+            const courseDropdown = document.getElementById("courseDropdown");
+            const instructorDropdown = document.getElementById("instructorDropdown");
+            const serviceDropdown = document.getElementById("serviceDropdown");
+
+            // Hide all dropdowns initially
+            courseDropdown.style.display = "none";
+            instructorDropdown.style.display = "none";
+            serviceDropdown.style.display = "none";
+
+            // Show the relevant dropdown based on the selected category
+            if (category === "course") {
+                courseDropdown.style.display = "block";
+            } else if (category === "instructor") {
+                instructorDropdown.style.display = "block";
+            } else if (category === "service") {
+                serviceDropdown.style.display = "block";
+            }
+        }
+
+        function selectRating(rating) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.toggle('selected', index < rating);
+            });
+            document.getElementById("rating").value = rating; // Update hidden input value
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <a href="/student-dashboard">Dashboard</a>
+        <a href="/student-dashboard/student/give-feedback">Give Feedback</a>
+        <a href="/student-dashboard/student/view-feedback">View Feedback</a>
+        <a href="/student-dashboard/student/profile">View Profile</a>
+        <a href="/" class="logout">Logout</a>
+    </nav>
+
+    <!-- Feedback Form -->
+    <div class="feedback-container">
+        <h1>Give Feedback</h1>
+
+        <form action="#" th:action="@{/student-dashboard/student/give-feedback}" method="POST">
+            <label for="category">Feedback Type:</label>
+            <select id="category" name="category" onchange="updateSecondaryDropdown()" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="course">Course</option>
+                <option value="instructor">Instructor</option>
+                <option value="service">Institutional Service</option>
+            </select>
+
+            <div id="courseDropdown" style="display:none;">
+                <label for="course">Course:</label>
+                <select id="course" name="course">
+                    <option value="" disabled selected>Select a course</option>
+                    <th:block th:each="course : ${courses}">
+                        <option th:value="${course.courseName}" th:text="${course.courseName}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div id="instructorDropdown" style="display:none;">
+                <label for="instructor">Instructor:</label>
+                <select id="instructor" name="instructor">
+                    <option value="" disabled selected>Select an instructor</option>
+                    <th:block th:each="instructor : ${instructors}">
+                        <option th:value="${instructor.instructorName}" th:text="${instructor.instructorName}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div id="serviceDropdown" style="display:none;">
+                <label for="service">Institutional Service:</label>
+                <select id="service" name="service">
+                    <option value="" disabled selected>Select a service</option>
+                    <th:block th:each="service : ${services}">
+                        <option th:value="${service.name}" th:text="${service.name}"></option>
+                    </th:block>
+                </select>
+            </div>
+
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" required></textarea>
+
+            <label for="rating">Rating:</label>
+            <div class="rating-container">
+                <span class="star" onclick="selectRating(1)">&#9733;</span>
+                <span class="star" onclick="selectRating(2)">&#9733;</span>
+                <span class="star" onclick="selectRating(3)">&#9733;</span>
+                <span class="star" onclick="selectRating(4)">&#9733;</span>
+                <span class="star" onclick="selectRating(5)">&#9733;</span>
+            </div>
+            <input type="hidden" id="rating" name="rating" value="0" required />
+            
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+</body>
+</html>

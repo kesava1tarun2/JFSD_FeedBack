@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Institutional Service</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            padding: 10px 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 12px 16px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .logout {
+            float: right;
+            background-color: #e74c3c; /* Red background */
+            padding: 10px 10px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        /* Page Heading */
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+            margin-top: 50px;
+            text-transform: uppercase;
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 60%;
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%; /* Ensure table width is reasonable */
+            margin: 40px auto;
+            border-collapse: collapse;
+            text-align: left;
+            background-color: white; /* White background for the table */
+            border-radius: 8px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #4CAF50; /* Green background for table headings */
+            color: white; /* White text for headings */
+            text-align: center; /* Center-align text in the table headings */
+        }
+
+        table td {
+            text-align: center; /* Center-align text in the table cells */
+        }
+
+        /* Button Styles */
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="/admin-dashboard">Go to Dashboard</a>
+        <a href="/admin-dashboard/admin/view-feedback">View Feedback</a>
+        <a href="/admin-dashboard/admin/add-course">Add Course</a>
+        <a href="/admin-dashboard/admin/add-instructor">Add Instructor</a>
+        <a href="/admin-dashboard/admin/add-service">Add Institutional Service</a>
+        <a href="/admin-dashboard/admin/profile">View Profile</a>
+        <a href="/" class="logout">Logout</a>
+    </nav>
+
+    <!-- Page Heading -->
+    <h1>Add Institutional Service</h1>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <form action="/admin-dashboard/admin/add-service" method="POST">
+            <label for="serviceName">Service Name:</label>
+            <input type="text" id="serviceName" name="name" placeholder="Enter service name" required />
+
+            <button type="submit">Add Service</button>
+        </form>
+    </div>
+
+    <!-- Displaying Services Table -->
+    <h2 style="text-align: center; margin-top: 40px;">Added Services</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through services and display in rows -->
+            <tr th:each="service : ${services}">
+                <td th:text="${service.name}"></td>
+                <td>
+                    <a th:href="@{/admin-dashboard/admin/delete-service/{id}(id=${service.id})}" class="btn-delete">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

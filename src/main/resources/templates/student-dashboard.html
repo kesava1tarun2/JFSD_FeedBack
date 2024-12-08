@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Student Dashboard</title>
+    <style>
+        /* General body and font settings */
+        .user-id {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://t3.ftcdn.net/jpg/05/00/34/58/360_F_500345899_4OqmtspFst6SRnNQvLj7h7TfKOrBwTer.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevents body from scrolling */
+        }
+
+        .dashboard-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for better readability */
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(5px); /* Adds a blur effect to the background */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* Navigation bar styling */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-flex; /* Use inline-flex to center items */
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        nav ul li a:hover {
+            background-color: #007BFF;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Button hover effect */
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Footer Styling */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .user-id {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome to Student Dashboard</h1>
+        
+        <nav>
+            <ul>
+                <li><a th:href="@{/student-dashboard/student/give-feedback}">Give Feedback</a></li>
+                <li><a th:href="@{/student-dashboard/student/view-feedback}">View Feedback</a></li>
+                <li><a th:href="@{/student-dashboard/student/profile}">View Profile</a></li>
+                <li><a href="/">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+</body>
+</html>

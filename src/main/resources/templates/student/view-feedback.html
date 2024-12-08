@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Feedback</title>
+    <style>
+        /* General body and font settings */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://t3.ftcdn.net/jpg/05/00/34/58/360_F_500345899_4OqmtspFst6SRnNQvLj7h7TfKOrBwTer.jpg') no-repeat center center fixed; 
+            background-size: cover; /* Ensures the image covers the full screen */
+            background-attachment: fixed; /* Keeps the image fixed during scrolling */
+            background-position: center; /* Keeps the image centered */
+            height: 100vh; /* Ensures the body takes the full viewport height */
+            width: 100%; /* Ensures the body takes the full viewport width */
+            overflow: hidden; /* Prevents body from scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Dashboard container styling */
+        .dashboard-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for better readability */
+            padding: 30px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        /* Navigation bar styling */
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        /* Go to Dashboard Button Styling */
+        .go-to-dashboard {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .go-to-dashboard:hover {
+            background-color: #218838;
+        }
+
+        /* Feedback table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Delete button styling */
+        .delete-button {
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            background-color: #F44336;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #E53935;
+        }
+
+        /* No feedback message styling */
+        .no-feedback {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Navigation Bar -->
+        <nav>
+            <ul>
+                <li><a th:href="@{/student-dashboard/student/give-feedback}">Give Feedback</a></li>
+                <li><a th:href="@{/student-dashboard/student/view-feedback}">View Feedback</a></li>
+                <li><a th:href="@{/student-dashboard/student/profile}">View Profile</a></li>
+                <li><a th:href="@{/student-dashboard}">Go to DashBoard</a></li>
+                <li><a href="/">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Page Title -->
+        <h1>Feedback Submissions</h1>
+
+        <!-- Feedback List -->
+        <div th:if="${feedbackList.size() == 0}" class="no-feedback">
+            <p>No feedback has been submitted yet.</p>
+        </div>
+
+        <table th:if="${feedbackList.size() > 0}">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Course Name</th>
+                    <th>Instructor Name</th>
+                    <th>Service Name</th>
+                    <th>Feedback</th>
+                    <th>Submitted By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="feedback : ${feedbackList}">
+                    <td th:text="${feedback.category}">Category</td>
+                    <td th:text="${feedback.courseName ?: 'N/A'}">Course Name</td>
+                    <td th:text="${feedback.instructorName ?: 'N/A'}">Instructor Name</td>
+                    <td th:text="${feedback.serviceName ?: 'N/A'}">Service Name</td>
+                    <td th:text="${feedback.feedback}">Feedback</td>
+                    <td th:text="${feedback.username}">Submitted By</td>
+                    <td>
+                        <a th:href="@{/student-dashboard/student/delete-feedback(feedbackId=${feedback.feedbackId})}" 
+                           class="delete-button" onclick="return confirm('Are you sure you want to delete this feedback?');">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

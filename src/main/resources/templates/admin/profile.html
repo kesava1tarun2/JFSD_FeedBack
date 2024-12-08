@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Profile</title>
+    <style>
+        /* General body and font settings */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://t3.ftcdn.net/jpg/05/00/34/58/360_F_500345899_4OqmtspFst6SRnNQvLj7h7TfKOrBwTer.jpg') no-repeat center center fixed; 
+            background-size: cover; /* Ensures the image covers the full screen */
+            background-attachment: fixed; /* Keeps the image fixed during scrolling */
+            background-position: center; /* Keeps the image centered */
+            height: 100vh; /* Ensures the body takes the full viewport height */
+            width: 100%; /* Ensures the body takes the full viewport width */
+            overflow: hidden; /* Prevents body from scrolling */
+            display: flex;
+            justify-content: center; /* Centers the content horizontally */
+            align-items: center; /* Centers the content vertically */
+        }
+
+        /* Header Styling */
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            margin: 20px 0;
+            position: absolute; /* Positioning it at the top center */
+            top: 20px; /* Ensures it’s slightly below the top */
+            width: 100%;
+            text-transform: uppercase;
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.9); /* Slight transparency for better readability */
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            text-align: center; /* Ensures all content inside is centered */
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        strong {
+            color: #555;
+        }
+
+        .error-message {
+            color: #d9534f;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .user-details {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+
+        .user-details span {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button a {
+            padding: 10px 20px;
+            background-color: #0D98BA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .back-button a:hover {
+            background-color: #0D98BA;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    
+    <div class="container">
+        <!-- Display user details if available -->
+        <div th:if="${user != null}" class="user-details">
+            <p><strong>User ID:</strong> <span th:text="${user.userId}"></span></p>
+            <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+            <p><strong>Last Login:</strong> <span th:text="${user.lastLogin}"></span></p>
+        </div>
+
+        <!-- Show error message if user not found -->
+        <div th:if="${error != null}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+
+        <!-- Back button linking to the home page -->
+        <div class="back-button">
+            <a href="/" th:href="@{/}">Back to Login Page</a>
+        </div>
+    </div>
+</body>
+</html>
